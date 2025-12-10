@@ -4,9 +4,9 @@ import requests
 from data import Urls
 
 def create_and_return_user():
-    email = f'{random.randint(1, 1000000)}@testdomain.com'
-    password = f'{random.randint(1, 1000000)}'
-    name = f'{random.randint(1, 1000000)}'
+    email = f'{random.randint(100, 1000000)}@testdomain.com'
+    password = f'{random.randint(100000, 1000000)}'
+    name = f'{random.randint(100, 1000000)}'
     payload = {
         "email": email,
         "password": password,
