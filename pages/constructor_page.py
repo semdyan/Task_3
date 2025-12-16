@@ -38,34 +38,7 @@ class ConstructorPage(BasePage):
 
     @allure.step('Перетаскивание ингредиента в корзину')
     def drag_and_drop_to_basket(self, source_element):
-        script = """
-            function simulateHTML5DragAndDrop(sourceNode, destinationNode) {
-                var dataTransfer = new DataTransfer();
-                var dragStartEvent = new DragEvent('dragstart', {
-                    bubbles: true,
-                    cancelable: true,
-                    dataTransfer: dataTransfer
-                });
-                sourceNode.dispatchEvent(dragStartEvent);
-
-                var dropEvent = new DragEvent('drop', {
-                    bubbles: true,
-                    cancelable: true,
-                    dataTransfer: dataTransfer
-                });
-                destinationNode.dispatchEvent(dropEvent);
-
-                var dragEndEvent = new DragEvent('dragend', {
-                    bubbles: true,
-                    cancelable: true,
-                    dataTransfer: dataTransfer
-                });
-                sourceNode.dispatchEvent(dragEndEvent);
-            }
-            simulateHTML5DragAndDrop(arguments[0], arguments[1]);
-            """
-        basket = self.wait_and_get_element(ConstructorLocators.CONSTRUCTOR_BASKET)
-        self.driver.execute_script(script, source_element, basket)
+        self.drag_and_drop(source_element, ConstructorLocators.CONSTRUCTOR_BASKET)
 
     @allure.step('Клик по кнопке "Оформить заказ')
     def click_on_confirm_order_button(self):
