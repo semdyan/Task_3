@@ -1,11 +1,8 @@
 import random
-
 import allure
 
 from data import Urls
-from locators.athorization_locators import AuthFormsLocators
 from pages.base_page import BasePage
-from locators.main_page_locators import MainPageButtonLocators
 from locators.order_list_page_locators import OrderListPageLocators
 
 
@@ -13,11 +10,6 @@ class OrderListPage(BasePage):
     @allure.step('Переход на страницу "Лента заказов"')
     def go_to_order_list_page(self):
         self.go_to_url(f'{Urls.BASE_URL}{Urls.ORDER_LIST_URL}')
-
-    @allure.step('Нажатие на ссылку "Лента заказов"')
-    def click_on_order_list_link(self):
-        self.wait_for_element_to_disappear(AuthFormsLocators.INVISIBLE_OVERLAY)
-        self.wait_and_click_element(MainPageButtonLocators.ORDER_LIST_LINK)
 
     @allure.step('Выбор и возврат произвольного заказа из списка')
     def get_random_order_from_list(self):

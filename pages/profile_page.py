@@ -2,32 +2,30 @@ import allure
 
 from pages.base_page import BasePage
 from data import Urls
-from locators.athorization_locators import AuthButtonLocators, AuthFormsLocators
-from locators.profile_page_locators import ProfilePageElementsLocators
-from locators.main_page_locators import MainPageButtonLocators
+from locators.profile_page_locators import ProfilePageElementsLocators, ProfilePageButtonsLocators, ProfileAuthInputLocators
+
 
 class ProfilePage(BasePage):
-    @allure.step('Авторизация пользователя')
-    def login_user(self, email, password):
+    @allure.step('Заполнение полей авторизации')
+    def set_credentials(self, email, password):
         self.go_to_url(f'{Urls.BASE_URL}{Urls.FRONT_LOGIN_USER_URL}')
-        self.set_field(AuthFormsLocators.LOGIN_EMAIL_INPUT, email)
-        self.set_field(AuthFormsLocators.LOGIN_PASSWORD_INPUT, password)
-        self.wait_for_element_to_disappear(AuthFormsLocators.INVISIBLE_OVERLAY)
-        self.wait_and_click_element(AuthButtonLocators.SUBMIT_BUTTON)
+        self.set_field(ProfileAuthInputLocators.LOGIN_EMAIL_INPUT, email)
+        self.set_field(ProfileAuthInputLocators.LOGIN_PASSWORD_INPUT, password)
+
+    @allure.step('Клик по кнопке "Войти"')
+    def click_on_submit_button(self):
+        self.wait_and_click_element(ProfilePageButtonsLocators.SUBMIT_BUTTON)
 
     @allure.step('Переход по кнопке "Профиль"')
     def click_on_profile_button(self):
-        self.wait_for_element_to_disappear(AuthFormsLocators.INVISIBLE_OVERLAY)
-        self.wait_and_click_element(MainPageButtonLocators.GO_TO_PROFILE_BUTTON)
+        self.wait_and_click_element(ProfilePageButtonsLocators.GO_TO_PROFILE_BUTTON)
 
     @allure.step('Переход по кнопке "История заказов"')
     def click_on_order_history_link(self):
-        self.wait_for_element_to_disappear(AuthFormsLocators.INVISIBLE_OVERLAY)
         self.wait_and_click_element(ProfilePageElementsLocators.ORDER_HISTORY_LINK)
 
     @allure.step('Переход по кнопке "Выход"')
     def click_on_logout_button(self):
-        self.wait_for_element_to_disappear(AuthFormsLocators.INVISIBLE_OVERLAY)
         self.wait_and_click_element(ProfilePageElementsLocators.LOGOUT_BUTTON)
 
     @allure.step('Получение номеров заказов из профиля')
@@ -50,6 +48,11 @@ class ProfilePage(BasePage):
 
     @allure.step('Проверка выхода из профиля')
     def check_user_logged_out(self):
-        email_input = self.wait_and_get_element(AuthFormsLocators.LOGIN_EMAIL_INPUT)
+        email_input = self.wait_and_get_element(ProfileAuthInputLocators.LOGIN_EMAIL_INPUT)
         return email_input.is_displayed()
+
+    @allure.step('Открытие формы авторизации')
+    def open_login_form(self):
+        self.go_to_url(Urls.BASE_URL)
+        self.wait_and_click_element(ProfilePageButtonsLocators.LOGIN_BUTTON)
 
